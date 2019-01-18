@@ -1,0 +1,63 @@
+﻿<template>
+    <div class="sender">
+        <video ref="video" autoplay></video>
+        <div>{{name}}</div>
+    </div>
+</template>
+<script>
+    export default {
+        props: ["id", "name","isSelf"],
+        data: function () {
+            return {
+                rtcPeer: null
+            }
+        },
+        methods: {
+            sendVideo: function () {
+                var that = this;
+                that.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendonly({
+                    localVideo: that.$refs.video,
+                    onicecandidate: that.onIceCandidate
+                }, function (error) {
+                    this.generateOffer(that.offerToReceive);
+                });
+            },
+            recevieVideo: function () {
+                var that = this;
+                that.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly({
+                    remoteVideo: that.$refs.video,
+                    onicecandidate: that.onIceCandidate
+                }, function (error) {
+                    this.generateOffer(that.offerToReceive);
+                });
+            },
+            offerToReceive: function (error, sdpOffer) {
+                if (error) return console.error("sdp offer error");
+                service.invoke("ReceiveOffer", this.clientId, this.id, sdpOffer);
+            },
+            processAnswer: function (sdpAnswer) {
+                this.rtcPeer.processAnswer(sdpAnswer, error => {
+                    if (error) return console.error(error);
+                });
+            },
+            onIceCandidate: function (candidate) {
+                service.invoke("AddCandidate", this.id, candidate);
+            },
+            addCandidate: function (candidate) {
+                this.rtcPeer.addIceCandidate(candidate, error => {
+                    if (error) console.error("Error adding candidate: " + error);
+                });
+            }
+        },
+        mounted: function () {
+            if (this.isSelf) {
+                this.sendVideo();
+            } else {
+                this.recevieVideo();
+            }
+        },
+        beforeDestroy: function () {
+            this.rtcPeer.dispose();
+        }
+    }
+</script>

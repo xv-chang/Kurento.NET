@@ -1,0 +1,18 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Kurento.NET Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+    @RenderSection("styles", false)
+    <script src="~/lib/polyfill.js"></script>
+    <script src="~/lib/vue.js"></script>
+    @RenderSection("libs", false)
+</head>
+<body>
+    @RenderBody()
+    <script src="~/js/utils.js"></script>
+    <script src="~/js/http.js"></script>
+    <script src="~/js/zb.js"></script>
+    @RenderSection("scripts", false)
+</body>
+</html>

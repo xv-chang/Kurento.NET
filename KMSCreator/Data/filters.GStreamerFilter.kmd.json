@@ -1,0 +1,61 @@
+{
+  "remoteClasses": [
+    {
+      "name": "GStreamerFilter",
+      "extends": "Filter",
+      "doc": "A generic filter interface that allows injecting any GStreamer element.
+      <p>
+      Note however that the current implementation of GStreamerFilter only allows single elements to be injected; one cannot indicate more than one at the same time; use several GStreamerFilters if you need to inject more than one element at the same time.
+      </p>
+      ",
+      "constructor": {
+        "doc": "Create a :rom:cls:`GStreamerFilter`.",
+        "params": [
+          {
+            "name": "mediaPipeline",
+            "doc": "the :rom:cls:`MediaPipeline` to which the filter belongs",
+            "type": "MediaPipeline"
+          },
+          {
+            "name": "command",
+            "doc": "String used to instantiate the GStreamer element, as in `gst-launch <https://gstreamer.freedesktop.org/documentation/tools/gst-launch.html>`__.",
+            "type": "String"
+          },
+          {
+            "name": "filterType",
+            "doc": "Sets the filter as Audio, Video, or Autodetect.",
+            "type": "FilterType",
+            "optional": true,
+            "defaultValue": "AUTODETECT"
+          }
+        ]
+      },
+      "properties": [
+        {
+          "name": "command",
+          "doc": "String used to instantiate the GStreamer element, as in `gst-launch <https://gstreamer.freedesktop.org/documentation/tools/gst-launch.html>`__.",
+          "type": "String",
+          "readOnly": true
+        }
+      ],
+      "methods": [
+        {
+          "name": "setElementProperty",
+          "doc": "Provide a value to one of the GStreamer element's properties.",
+          "params": [
+            {
+              "name": "propertyName",
+              "doc": "Name of the property that needs to be modified in the GStreamer element.",
+              "type": "String"
+            },
+            {
+              "name": "propertyValue",
+              "doc": "Value that must be assigned to the property.",
+              "type": "String"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

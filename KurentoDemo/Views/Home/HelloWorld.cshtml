@@ -1,0 +1,69 @@
+﻿@section libs{
+    <script src="~/lib/adapter.js"></script>
+    <script src="~/lib/kurento-utils.js"></script>
+}
+<div id="app">
+    <button v-on:click="start">开始</button>
+    <video ref="sender" autoplay poster="~/img/webrtc.png"></video>
+    <video ref="receiver" autoplay poster="~/img/webrtc.png"></video>
+</div>
+
+@section scripts{
+    <script src="~/js/service.js"></script>
+    <script>
+        var app = new Vue({
+            el: "#app",
+            data: {
+                rtcPeer: null
+            },
+            computed: {
+            },
+            methods: {
+                start: function () {
+                    var that = this;
+                    that.rtcPeer = new kurentoUtils.WebRtcPeer.WebRtcPeerSendrecv({
+                        localVideo: that.$refs.sender,
+                        remoteVideo: that.$refs.receiver,
+                        mediaConstraints: { audio: true, video: true },
+                        onicecandidate: that.onIceCandidate
+                    }, function (error) {
+                        this.generateOffer(that.offerToReceive);
+                    });
+                },
+                offerToReceive: function (error, sdpOffer) {
+                    if (error) return console.error("sdp offer error");
+                    service.invoke("ReceiveOffer", sdpOffer);
+                },
+                processAnswer: function (sdpAnswer) {
+                    this.rtcPeer.processAnswer(sdpAnswer, error => {
+                        if (error) return console.error(error);
+                    });
+                },
+                onIceCandidate: function (candidate) {
+                    service.invoke("AddCandidate", candidate);
+                },
+                addCandidate: function (candidate) {
+                    this.rtcPeer.addIceCandidate(candidate, error => {
+                        if (error) console.error("Error adding candidate: " + error);
+                    });
+                }
+            },
+            created: function () {
+                var that = this;
+                service.start("/HelloWorldHub");
+                service.on("addCandidate", function (candidate) {
+                    that.addCandidate(candidate);
+                });
+                service.on("processAnswer", function (answer) {
+                    that.processAnswer(answer);
+                });
+                service.on("Pong", function () {
+
+                });
+                window.onbeforeunload = function () {
+                    service.stop();
+                };
+            }
+        });
+    </script>
+}

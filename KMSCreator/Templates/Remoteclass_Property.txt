@@ -1,0 +1,8 @@
+﻿		public ${type} Get${upperName}()
+        {
+            return client.Invoke(this, "get${upperName}").GetValue<${type}>();
+        }
+        public void Set${upperName}(${type} ${name})
+        {
+            client.Invoke(this, "set${upperName}", new { ${name} });
+        }

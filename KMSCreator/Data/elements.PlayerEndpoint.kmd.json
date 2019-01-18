@@ -1,0 +1,160 @@
+{
+  "remoteClasses": [
+    {
+      "name": "PlayerEndpoint",
+      "extends": "UriEndpoint",
+      "doc": "
+      <p>
+      Retrieves content from seekable or non-seekable sources, and injects them into :term:`KMS`, so they can be delivered to any Filter or Endpoint in the same MediaPipeline. Following URI schemas are supported:
+      <ul>
+        <li>
+          Files: Mounted in the local file system.
+          <ul><li>file:///path/to/file</li></ul>
+        </li>
+        <li>
+          RTSP: Those of IP cameras would be a good example.
+          <ul>
+            <li>rtsp://<server-ip></li>
+            <li>rtsp://username:password@<server-ip></li>
+          </ul>
+        </li>
+        <li>
+          HTTP: Any file available in an HTTP server
+          <ul>
+            <li>http(s)://<server-ip>/path/to/file</li>
+            <li>http(s)://username:password@<server-ip>/path/to/file</li>
+          </ul>
+        </li>
+      </ul>
+      </p>
+      <p>
+      For the player to stream the contents of the file, the server must have access to the resource. In case of local files, the user running the process must have read permissions over the file. For network resources, the path to the resource must be accessible: IP and port access not blocked, correct credentials, etc.The resource location can’t be changed after the player is created, and a new player should be created for streaming a different resource.
+      </p>
+      <p>
+      The list of valid operations is
+      <ul>
+        <li>*play*: starts streaming media. If invoked after pause, it will resume playback.</li>
+        <li>*stop*: stops streaming media. If play is invoked afterwards, the file will be streamed from the beginning.</li>
+        <li>*pause*: pauses media streaming. Play must be invoked in order to resume playback.</li>
+        <li>*seek*: If the source supports “jumps” in the timeline, then the PlayerEndpoint can
+          <ul>
+            <li>*setPosition*: allows to set the position in the file.</li>
+            <li>*getPosition*: returns the current position being streamed.</li>
+          </ul>
+        </li>
+      </ul>
+      </p>
+      <p>
+      <h2>Events fired:</h2>
+      <ul><li>EndOfStreamEvent: If the file is streamed completely.</li></ul>
+      </p>
+      ",
+      "constructor":
+        {
+          "doc": "Create a PlayerEndpoint",
+          "params": [
+            {
+              "name": "mediaPipeline",
+              "doc": "The :rom:cls:`MediaPipeline` this PlayerEndpoint belongs to.",
+              "type": "MediaPipeline"
+            },
+            {
+              "name": "uri",
+              "doc": "URI pointing to the video. It has to be accessible to the KMS process.
+              <ul>
+                <li>Local resources: The user running the Kurento Media Server must have read permission over the file.</li>
+                <li>Remote resources: Must be accessible from the server where the media server is running.</li>
+              </ul>",
+              "type": "String"
+            },
+            {
+              "name": "useEncodedMedia",
+              "doc": "Feed the input media as-is to the Media Pipeline, instead of first decoding it.
+              <p>
+              When this property is not enabled, the input media gets always decoded into a raw format before being processed by the rest of the Media Pipeline; this is done to ensure that Kurento is able to keep track of lost keyframes among other quality-control measurements. Of course, having to decode the media has a cost in terms of CPU usage, but ensures that the output streaming will be robust and reliable.
+              </p>
+              <p>
+              When this property is enabled, the explained behavior gets disabled. Instead, The endpoint will provide any input media directly to the Media Pipeline, without prior decoding. Enabling this mode of operation could have a severe effect on stability, because lost video keyframes will not be regenerated; however, avoiding a full cycle of decoding and encoding can be very useful for certain applications, because it improves performance by greatly reducing the CPU processing load.
+              </p>
+              <p>
+              Keep in mind that if this property is enabled, the original source media MUST already have an encoding format which is compatible with the destination target. For example: given a pipeline which uses this endpoint to read a file and then streams it to a WebRTC browser such as Chrome, then the file must already be encoded with a VP8 or H.264 codec profile which Chrome is able to decode. Note that for this example, most browsers don't support ANY combination of H.264 encoding options; instead, they tend to support only a very specific subset of the codec features (also known as 'profiles').
+              </p>
+              <p>
+              We strongly recommend to avoid using this option, because correct behavior cannot be guaranteed.
+              </p>
+              ",
+              "type": "boolean",
+              "optional": true,
+              "defaultValue": false
+            },
+            {
+              "name": "networkCache",
+              "doc": "When using RTSP sources: Amount of milliseconds to buffer",
+              "type": "int",
+              "optional": true,
+              "defaultValue": 2000
+            }
+          ]
+        },
+      "properties": [
+        {
+          "name": "videoInfo",
+          "doc": "Returns info about the source being played",
+          "type": "VideoInfo",
+          "readOnly": true
+        },
+        {
+          "name": "elementGstreamerDot",
+          "doc": "Returns the GStreamer DOT string for this element's private pipeline",
+          "type": "String",
+          "readOnly": true
+        },
+        {
+          "name": "position",
+          "doc": "Get or set the actual position of the video in ms. .. note:: Setting the position only works for seekable videos",
+          "type": "int64"
+        }
+      ],
+      "methods": [
+        {
+          "name": "play",
+          "doc": "Starts reproducing the media, sending it to the :rom:cls:`MediaSource`. If the endpoint\n
+          has been connected to other endpoints, those will start receiving media.",
+          "params": []
+        }
+      ],
+      "events": [
+        "EndOfStream"
+      ]
+    }
+  ],
+  "complexTypes": [
+    {
+      "name": "VideoInfo",
+      "typeFormat": "REGISTER",
+      "doc": "",
+      "properties": [
+        {
+          "name": "isSeekable",
+          "doc": "Seek is possible in video source",
+          "type": "boolean"
+        },
+        {
+          "name": "seekableInit",
+          "doc": "First video position to do seek in ms",
+          "type": "int64"
+        },
+        {
+          "name": "seekableEnd",
+          "doc": "Last video position to do seek in ms",
+          "type": "int64"
+        },
+        {
+          "name": "duration",
+          "doc": "Video duration in ms",
+          "type": "int64"
+        }
+      ]
+    }
+  ]
+}

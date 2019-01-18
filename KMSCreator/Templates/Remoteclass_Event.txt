@@ -1,0 +1,14 @@
+﻿		public KMSEventHandler<${name}EventArgs>  _${name};
+		public event KMSEventHandler<${name}EventArgs> ${name}
+		{
+			add
+			{
+				_${name} += value;
+				client.Subscribe(this, "${name}");
+			}
+			remove
+			{
+				_${name} -= value;
+				client.Unsubscribe(this, "${name}");
+			}
+		}

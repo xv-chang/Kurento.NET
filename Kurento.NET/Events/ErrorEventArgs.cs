@@ -1,0 +1,20 @@
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Kurento.NET
+{
+    public class ErrorEventArgs :RaiseBaseEventArgs
+	{
+		public string description;
+		public int errorCode;
+		public string type;
+
+	}
+}
+
+

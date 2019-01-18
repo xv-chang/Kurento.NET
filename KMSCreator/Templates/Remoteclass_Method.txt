@@ -1,0 +1,4 @@
+﻿		public ${returnType} ${upperName}(${args})
+		{
+			return client.Invoke(this, "${name}",${argNames}).GetValue<${returnType}>();
+		}
