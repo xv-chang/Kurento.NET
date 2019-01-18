@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCOutboundRTPStreamStats :RTCRTPStreamStats
 	{
-			public Int64 packetsSent;
+		public Int64 packetsSent;
 		public Int64 bytesSent;
 		public double targetBitrate;
 		public double roundTripTime;

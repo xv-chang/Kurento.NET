@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class IceCandidate 
 	{
-			public string candidate;
+		public string candidate;
 		public string sdpMid;
 		public int sdpMLineIndex;
 

@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCCodec :RTCStats
 	{
-			public Int64 payloadType;
+		public Int64 payloadType;
 		public string codec;
 		public Int64 clockRate;
 		public Int64 channels;

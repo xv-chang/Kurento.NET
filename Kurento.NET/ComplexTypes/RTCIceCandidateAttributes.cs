@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCIceCandidateAttributes :RTCStats
 	{
-			public string ipAddress;
+		public string ipAddress;
 		public Int64 portNumber;
 		public string transport;
 		public RTCStatsIceCandidateType candidateType;

@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class AudioCaps 
 	{
-			public AudioCodec codec;
+		public AudioCodec codec;
 		public int bitrate;
 
 	}

@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCDataChannelStats :RTCStats
 	{
-			public string label;
+		public string label;
 		public string protocol;
 		public Int64 datachannelid;
 		public RTCDataChannelState state;

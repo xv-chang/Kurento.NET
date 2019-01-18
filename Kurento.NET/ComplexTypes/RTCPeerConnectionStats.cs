@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCPeerConnectionStats :RTCStats
 	{
-			public Int64 dataChannelsOpened;
+		public Int64 dataChannelsOpened;
 		public Int64 dataChannelsClosed;
 
 	}

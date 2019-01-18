@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class IceCandidatePair 
 	{
-			public string streamID;
+		public string streamID;
 		public int componentID;
 		public string localCandidate;
 		public string remoteCandidate;

@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class MediaLatencyStat 
 	{
-			public string name;
+		public string name;
 		public MediaType type;
 		public double avg;
 

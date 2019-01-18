@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class CodecConfiguration 
 	{
-			public string name;
+		public string name;
 		public Dictionary<string,string> properties;
 
 	}

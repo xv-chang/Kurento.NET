@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class SDES 
 	{
-			public string key;
+		public string key;
 		public string keyBase64;
 		public CryptoSuite crypto;
 

@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCInboundRTPStreamStats :RTCRTPStreamStats
 	{
-			public Int64 packetsReceived;
+		public Int64 packetsReceived;
 		public Int64 bytesReceived;
 		public double jitter;
 

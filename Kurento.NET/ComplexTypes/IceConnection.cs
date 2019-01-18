@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class IceConnection 
 	{
-			public string streamId;
+		public string streamId;
 		public int componentId;
 		public IceComponentState state;
 

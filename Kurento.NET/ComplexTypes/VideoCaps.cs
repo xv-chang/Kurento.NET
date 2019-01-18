@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class VideoCaps 
 	{
-			public VideoCodec codec;
+		public VideoCodec codec;
 		public Fraction framerate;
 
 	}

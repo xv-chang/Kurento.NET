@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class ElementConnectionData 
 	{
-			public MediaElement source;
+		public MediaElement source;
 		public MediaElement sink;
 		public MediaType type;
 		public string sourceDescription;

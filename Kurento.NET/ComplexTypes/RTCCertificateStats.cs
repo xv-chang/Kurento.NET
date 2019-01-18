@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCCertificateStats :RTCStats
 	{
-			public string fingerprint;
+		public string fingerprint;
 		public string fingerprintAlgorithm;
 		public string base64Certificate;
 		public string issuerCertificateId;

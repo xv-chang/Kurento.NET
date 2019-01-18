@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class ModuleInfo 
 	{
-			public string version;
+		public string version;
 		public string name;
 		public string generationTime;
 		public String[] factories;

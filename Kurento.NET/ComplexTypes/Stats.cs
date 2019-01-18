@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class Stats 
 	{
-			public string id;
+		public string id;
 		public StatsType type;
 		public double timestamp;
 

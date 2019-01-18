@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class EndpointStats :ElementStats
 	{
-			public double audioE2ELatency;
+		public double audioE2ELatency;
 		public double videoE2ELatency;
 		public MediaLatencyStat[] E2ELatency;
 

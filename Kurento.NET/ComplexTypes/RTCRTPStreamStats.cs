@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCRTPStreamStats :RTCStats
 	{
-			public string ssrc;
+		public string ssrc;
 		public string associateStatsId;
 		public bool isRemote;
 		public string mediaTrackId;

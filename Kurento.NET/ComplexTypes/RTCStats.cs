@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCStats :Stats
 	{
-	
+
 	}
 }
 

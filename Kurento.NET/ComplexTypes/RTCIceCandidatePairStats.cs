@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCIceCandidatePairStats :RTCStats
 	{
-			public string transportId;
+		public string transportId;
 		public string localCandidateId;
 		public string remoteCandidateId;
 		public RTCStatsIceCandidatePairState state;

@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCMediaStreamStats :RTCStats
 	{
-			public string streamIdentifier;
+		public string streamIdentifier;
 		public String[] trackIds;
 
 	}

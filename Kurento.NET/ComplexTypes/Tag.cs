@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class Tag 
 	{
-			public string key;
+		public string key;
 		public string value;
 
 	}

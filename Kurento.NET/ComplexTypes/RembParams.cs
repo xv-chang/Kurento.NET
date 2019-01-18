@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RembParams 
 	{
-			public int packetsRecvIntervalTop;
+		public int packetsRecvIntervalTop;
 		public float exponentialFactor;
 		public int linealFactorMin;
 		public float linealFactorGrade;

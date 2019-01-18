@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class ServerInfo 
 	{
-			public string version;
+		public string version;
 		public ModuleInfo[] modules;
 		public ServerType type;
 		public String[] capabilities;

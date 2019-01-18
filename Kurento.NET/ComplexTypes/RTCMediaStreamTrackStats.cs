@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCMediaStreamTrackStats :RTCStats
 	{
-			public string trackIdentifier;
+		public string trackIdentifier;
 		public bool remoteSource;
 		public String[] ssrcIds;
 		public Int64 frameWidth;

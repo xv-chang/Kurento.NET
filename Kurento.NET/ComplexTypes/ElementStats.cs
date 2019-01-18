@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class ElementStats :Stats
 	{
-			public double inputAudioLatency;
+		public double inputAudioLatency;
 		public double inputVideoLatency;
 		public MediaLatencyStat[] inputLatency;
 

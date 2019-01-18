@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class RTCTransportStats :RTCStats
 	{
-			public Int64 bytesSent;
+		public Int64 bytesSent;
 		public Int64 bytesReceived;
 		public string rtcpTransportStatsId;
 		public bool activeConnection;

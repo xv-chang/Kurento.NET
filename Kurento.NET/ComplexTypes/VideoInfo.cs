@@ -10,7 +10,7 @@ namespace Kurento.NET
 {
     public class VideoInfo 
 	{
-			public bool isSeekable;
+		public bool isSeekable;
 		public Int64 seekableInit;
 		public Int64 seekableEnd;
 		public Int64 duration;
