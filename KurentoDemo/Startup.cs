@@ -32,12 +32,14 @@ namespace KurentoDemo
         {
             JsonConvert.DefaultSettings = new Func<JsonSerializerSettings>(() => new JsonSerializerSettings { ContractResolver = new CamelCasePropertyNamesContractResolver() });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSingleton<KMSSettings>(Configuration.GetSection("KMSSettings").Get<KMSSettings>());
             services.AddSingleton<KMSServersManager>();
             services.AddSingleton<RoomsManager>();
             services.AddSingleton<UsersManager>();
             services.AddTransient<HelloWorldHub>();
             services.AddTransient<RoomHub>();
             services.AddSingleton<HubManager>();
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

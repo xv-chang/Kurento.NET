@@ -14,14 +14,14 @@ namespace KurentoDemo.Infrastructure.Kurento
         private List<ServerPipeline> pipelines;
         private readonly ILoggerFactory loggerFactory;
 
-        public KMSServersManager(ILoggerFactory loggerFactory)
+        public KMSServersManager(ILoggerFactory loggerFactory, KMSSettings settings)
         {
             this.loggerFactory = loggerFactory;
-            servers = new List<KMSServer>
+            servers = new List<KMSServer>();
+            foreach (var opt in settings.KMSServers)
             {
-                new KMSServer("master","ws://120.79.101.14:8888/kurento", true, loggerFactory),
-                new KMSServer("slave1","ws://119.23.174.246:8888/kurento", false, loggerFactory)
-            };
+                servers.Add(new KMSServer(opt, loggerFactory));
+            }
             pipelines = new List<ServerPipeline>();
         }
         public void CreatePipeline(string id)
@@ -42,7 +42,7 @@ namespace KurentoDemo.Infrastructure.Kurento
                 var pipeline = slaveServer.CreatePipleline();
                 var rtpEndPoint = slaveServer.CreateRtpEndPoint(pipeline);
                 var masterRtpEndPoint = masterServer.CreateRtpEndPoint(masterPipeline);
-               
+
                 var offer = masterRtpEndPoint.GenerateOffer();
                 var answer = rtpEndPoint.ProcessOffer(OverWriteSDP(offer, masterServer.IP));
                 var answer2 = masterRtpEndPoint.ProcessAnswer(OverWriteSDP(answer, slaveServer.IP));

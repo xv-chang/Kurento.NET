@@ -10,16 +10,16 @@ namespace KurentoDemo.Infrastructure.Kurento
 {
     public class KMSServer : KurentoClient
     {
-        public string Id { set; get; }
-        public string Uri { set; get; }
+        public string Name { set; get; }
+        public string URI { set; get; }
         public string IP { set; get; }
         public bool IsMaster { set; get; }
-        public KMSServer(string id, string uri, bool isMaster, ILoggerFactory loggerFactory) : base(uri, loggerFactory)
+        public KMSServer(KMSServerOption opt, ILoggerFactory loggerFactory) : base(opt.URI, loggerFactory)
         {
-            Id = id;
-            Uri = uri;
-            IP = GetIP(uri);
-            IsMaster = isMaster;
+            Name = opt.Name;
+            URI = opt.URI;
+            IP = GetIP(opt.URI);
+            IsMaster = opt.IsMaster;
         }
         private string GetIP(string uri)
         {
