@@ -14,7 +14,7 @@ namespace KurentoDemo.Infrastructure.Kurento
         public string URI { set; get; }
         public string IP { set; get; }
         public bool IsMaster { set; get; }
-        public KMSServer(KMSServerOption opt, ILoggerFactory loggerFactory) : base(opt.URI, loggerFactory)
+        public KMSServer(KMSServerOption opt, ILogger logger = null) : base(opt.URI, logger)
         {
             Name = opt.Name;
             URI = opt.URI;

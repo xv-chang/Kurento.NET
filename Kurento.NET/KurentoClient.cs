@@ -21,11 +21,10 @@ namespace Kurento.NET
         private ConcurrentDictionary<int, string> requests = new ConcurrentDictionary<int, string>();
         private ConcurrentDictionary<int, KMSResponse> repsonses = new ConcurrentDictionary<int, KMSResponse>();
         private ConcurrentDictionary<string, KMSObject> objects = new ConcurrentDictionary<string, KMSObject>();
-        private readonly ILogger<KurentoClient> logger;
-        public KurentoClient(string uri, ILoggerFactory loggerFactory)
+        private readonly ILogger _logger;
+        public KurentoClient(string uri, ILogger logger = null)
         {
-            logger = loggerFactory.CreateLogger<KurentoClient>();
-
+            _logger = logger ?? new NullLogger();
             clientWebSocket = new ClientWebSocket();
             clientWebSocket.ConnectAsync(new Uri(uri), CancellationToken.None);
             Task.Run(() => ReceiveAsync(clientWebSocket));
@@ -60,13 +59,13 @@ namespace Kurento.NET
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, ex.Message);
+                    _logger.LogError(ex, ex.Message);
                 }
             }
         }
         private void OnMessage(string data)
         {
-            logger.LogInformation(data);
+            _logger.LogInformation(data);
             var resp = JsonConvert.DeserializeObject<KMSResponse>(data);
             if (resp.Method == "onEvent")
             {
@@ -101,7 +100,7 @@ namespace Kurento.NET
             };
             var jsonSetting = new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore };
             var jsonStr = JsonConvert.SerializeObject(request, jsonSetting);
-            logger.LogInformation(jsonStr);
+            _logger.LogInformation(jsonStr);
             requests[requestId] = jsonStr;
             var buffer = Encoding.UTF8.GetBytes(jsonStr);
             await clientWebSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
@@ -111,7 +110,7 @@ namespace Kurento.NET
             requests.TryRemove(requestId, out string _);
             repsonses.TryRemove(requestId, out _);
             if (resp.Error != null)
-                logger.LogError(resp.Error.Message);
+                _logger.LogError(resp.Error.Message);
             return resp;
         }
         public T Create<T>(T instance) where T : KMSObject

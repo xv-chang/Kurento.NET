@@ -11,3 +11,13 @@ Kurento is an open source software project providing a platform suitable for cre
 + KurentoDemo
    + 几个简单的使用kurento 的列子
 
+# 如何使用
+
+1. NuGet 引用
+   > ```Install-Package Kurento.NET```
+2. 使用
+ ```
+    var client = new KurentoClient("ws://your kurento ip:8888/kurento", logge);
+    var pipeline = client.Create(new MediaPipeline());
+    var webRtcEndPoint = client.Create(new WebRtcEndpoint(pipeline));
+```

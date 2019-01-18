@@ -21,9 +21,9 @@ namespace KurentoDemo
         private readonly WebRtcEndpoint webRtcEndPoint;
         private readonly ServerManager serverManager;
 
-        public HelloWorldHub(ILoggerFactory loggerFactory)
+        public HelloWorldHub(ILogger<HelloWorldHub> logger)
         {
-            client = new KurentoClient("ws://vm.gydfsoft.com:8888/kurento", loggerFactory);
+            client = new KurentoClient("ws://vm.gydfsoft.com:8888/kurento", logger);
             pipeline = client.Create(new MediaPipeline());
             webRtcEndPoint = client.Create(new WebRtcEndpoint(pipeline));
             serverManager = client.GetServerManager();

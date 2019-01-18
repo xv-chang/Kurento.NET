@@ -12,15 +12,14 @@ namespace KurentoDemo.Infrastructure.Kurento
     {
         private List<KMSServer> servers;
         private List<ServerPipeline> pipelines;
-        private readonly ILoggerFactory loggerFactory;
-
-        public KMSServersManager(ILoggerFactory loggerFactory, KMSSettings settings)
+        private readonly ILogger _logger;
+        public KMSServersManager(ILogger<KMSServersManager> logger, KMSSettings settings)
         {
-            this.loggerFactory = loggerFactory;
+            _logger = logger;
             servers = new List<KMSServer>();
             foreach (var opt in settings.KMSServers)
             {
-                servers.Add(new KMSServer(opt, loggerFactory));
+                servers.Add(new KMSServer(opt, _logger));
             }
             pipelines = new List<ServerPipeline>();
         }
