@@ -28,8 +28,8 @@ namespace KurentoDemo.Infrastructure.Kurento
                 throw new ArgumentException("参数uri 必须时ip 地址，不能是域名");
             return match.Value;
         }
-        public MediaPipeline CreatePipleline() => Create(new MediaPipeline());
-        public RtpEndpoint CreateRtpEndPoint(MediaPipeline pipeline) => Create(new RtpEndpoint(pipeline));
+        public MediaPipeline CreatePipleline() => CreateAsync(new MediaPipeline());
+        public RtpEndpoint CreateRtpEndPoint(MediaPipeline pipeline) => CreateAsync(new RtpEndpoint(pipeline));
 
     }
 }

@@ -11,42 +11,42 @@ namespace Kurento.NET
     public class SdpEndpoint :SessionEndpoint
 	{
 
-		public int GetMaxVideoRecvBandwidth()
+		public async Task<int> GetMaxVideoRecvBandwidthAsync()
         {
-            return client.Invoke(this, "getMaxVideoRecvBandwidth").GetValue<int>();
+            return (await client.InvokeAsync(this, "getMaxVideoRecvBandwidth")).GetValue<int>();
         }
-        public void SetMaxVideoRecvBandwidth(int maxVideoRecvBandwidth)
+        public async Task SetMaxVideoRecvBandwidthAsync(int maxVideoRecvBandwidth)
         {
-            client.Invoke(this, "setMaxVideoRecvBandwidth", new { maxVideoRecvBandwidth });
+            await client.InvokeAsync(this, "setMaxVideoRecvBandwidth", new { maxVideoRecvBandwidth });
         }
-		public int GetMaxAudioRecvBandwidth()
+		public async Task<int> GetMaxAudioRecvBandwidthAsync()
         {
-            return client.Invoke(this, "getMaxAudioRecvBandwidth").GetValue<int>();
+            return (await client.InvokeAsync(this, "getMaxAudioRecvBandwidth")).GetValue<int>();
         }
-        public void SetMaxAudioRecvBandwidth(int maxAudioRecvBandwidth)
+        public async Task SetMaxAudioRecvBandwidthAsync(int maxAudioRecvBandwidth)
         {
-            client.Invoke(this, "setMaxAudioRecvBandwidth", new { maxAudioRecvBandwidth });
+            await client.InvokeAsync(this, "setMaxAudioRecvBandwidth", new { maxAudioRecvBandwidth });
         }
 
-		public string GenerateOffer()
+		public async Task<string> GenerateOfferAsync()
 		{
-			return client.Invoke(this, "generateOffer",null).GetValue<string>();
+			return (await client.InvokeAsync(this, "generateOffer",null)).GetValue<string>();
 		}
-		public string ProcessOffer(string offer)
+		public async Task<string> ProcessOfferAsync(string offer)
 		{
-			return client.Invoke(this, "processOffer",new {offer}).GetValue<string>();
+			return (await client.InvokeAsync(this, "processOffer",new {offer})).GetValue<string>();
 		}
-		public string ProcessAnswer(string answer)
+		public async Task<string> ProcessAnswerAsync(string answer)
 		{
-			return client.Invoke(this, "processAnswer",new {answer}).GetValue<string>();
+			return (await client.InvokeAsync(this, "processAnswer",new {answer})).GetValue<string>();
 		}
-		public string GetLocalSessionDescriptor()
+		public async Task<string> GetLocalSessionDescriptorAsync()
 		{
-			return client.Invoke(this, "getLocalSessionDescriptor",null).GetValue<string>();
+			return (await client.InvokeAsync(this, "getLocalSessionDescriptor",null)).GetValue<string>();
 		}
-		public string GetRemoteSessionDescriptor()
+		public async Task<string> GetRemoteSessionDescriptorAsync()
 		{
-			return client.Invoke(this, "getRemoteSessionDescriptor",null).GetValue<string>();
+			return (await client.InvokeAsync(this, "getRemoteSessionDescriptor",null)).GetValue<string>();
 		}
 
 

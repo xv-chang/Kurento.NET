@@ -16,13 +16,13 @@ namespace Kurento.NET
 		}
 
 
-		public void UnsetOverlayedImage()
+		public async Task UnsetOverlayedImageAsync()
 		{
-			client.Invoke(this, "unsetOverlayedImage",null);
+			await client.InvokeAsync(this, "unsetOverlayedImage",null);
 		}
-		public void SetOverlayedImage(string uri,float offsetXPercent,float offsetYPercent,float widthPercent,float heightPercent)
+		public async Task SetOverlayedImageAsync(string uri,float offsetXPercent,float offsetYPercent,float widthPercent,float heightPercent)
 		{
-			client.Invoke(this, "setOverlayedImage",new {uri,offsetXPercent,offsetYPercent,widthPercent,heightPercent});
+			await client.InvokeAsync(this, "setOverlayedImage",new {uri,offsetXPercent,offsetYPercent,widthPercent,heightPercent});
 		}
 
 

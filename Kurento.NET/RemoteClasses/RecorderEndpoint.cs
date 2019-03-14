@@ -16,13 +16,13 @@ namespace Kurento.NET
 		}
 
 
-		public void Record()
+		public async Task RecordAsync()
 		{
-			client.Invoke(this, "record",null);
+			await client.InvokeAsync(this, "record",null);
 		}
-		public void StopAndWait()
+		public async Task StopAndWaitAsync()
 		{
-			client.Invoke(this, "stopAndWait",null);
+			await client.InvokeAsync(this, "stopAndWait",null);
 		}
 
 		public KMSEventHandler<RecordingEventArgs>  _Recording;
@@ -31,12 +31,12 @@ namespace Kurento.NET
 			add
 			{
 				_Recording += value;
-				client.Subscribe(this, "Recording");
+				client.SubscribeAsync(this, "Recording");
 			}
 			remove
 			{
 				_Recording -= value;
-				client.Unsubscribe(this, "Recording");
+				client.UnsubscribeAsync(this, "Recording");
 			}
 		}
 		public KMSEventHandler<PausedEventArgs>  _Paused;
@@ -45,12 +45,12 @@ namespace Kurento.NET
 			add
 			{
 				_Paused += value;
-				client.Subscribe(this, "Paused");
+				client.SubscribeAsync(this, "Paused");
 			}
 			remove
 			{
 				_Paused -= value;
-				client.Unsubscribe(this, "Paused");
+				client.UnsubscribeAsync(this, "Paused");
 			}
 		}
 		public KMSEventHandler<StoppedEventArgs>  _Stopped;
@@ -59,12 +59,12 @@ namespace Kurento.NET
 			add
 			{
 				_Stopped += value;
-				client.Subscribe(this, "Stopped");
+				client.SubscribeAsync(this, "Stopped");
 			}
 			remove
 			{
 				_Stopped -= value;
-				client.Unsubscribe(this, "Stopped");
+				client.UnsubscribeAsync(this, "Stopped");
 			}
 		}
 

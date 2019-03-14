@@ -11,86 +11,86 @@ namespace Kurento.NET
     public class MediaElement :MediaObject
 	{
 
-		public int GetMinOuputBitrate()
+		public async Task<int> GetMinOuputBitrateAsync()
         {
-            return client.Invoke(this, "getMinOuputBitrate").GetValue<int>();
+            return (await client.InvokeAsync(this, "getMinOuputBitrate")).GetValue<int>();
         }
-        public void SetMinOuputBitrate(int minOuputBitrate)
+        public async Task SetMinOuputBitrateAsync(int minOuputBitrate)
         {
-            client.Invoke(this, "setMinOuputBitrate", new { minOuputBitrate });
+            await client.InvokeAsync(this, "setMinOuputBitrate", new { minOuputBitrate });
         }
-		public int GetMinOutputBitrate()
+		public async Task<int> GetMinOutputBitrateAsync()
         {
-            return client.Invoke(this, "getMinOutputBitrate").GetValue<int>();
+            return (await client.InvokeAsync(this, "getMinOutputBitrate")).GetValue<int>();
         }
-        public void SetMinOutputBitrate(int minOutputBitrate)
+        public async Task SetMinOutputBitrateAsync(int minOutputBitrate)
         {
-            client.Invoke(this, "setMinOutputBitrate", new { minOutputBitrate });
+            await client.InvokeAsync(this, "setMinOutputBitrate", new { minOutputBitrate });
         }
-		public int GetMaxOuputBitrate()
+		public async Task<int> GetMaxOuputBitrateAsync()
         {
-            return client.Invoke(this, "getMaxOuputBitrate").GetValue<int>();
+            return (await client.InvokeAsync(this, "getMaxOuputBitrate")).GetValue<int>();
         }
-        public void SetMaxOuputBitrate(int maxOuputBitrate)
+        public async Task SetMaxOuputBitrateAsync(int maxOuputBitrate)
         {
-            client.Invoke(this, "setMaxOuputBitrate", new { maxOuputBitrate });
+            await client.InvokeAsync(this, "setMaxOuputBitrate", new { maxOuputBitrate });
         }
-		public int GetMaxOutputBitrate()
+		public async Task<int> GetMaxOutputBitrateAsync()
         {
-            return client.Invoke(this, "getMaxOutputBitrate").GetValue<int>();
+            return (await client.InvokeAsync(this, "getMaxOutputBitrate")).GetValue<int>();
         }
-        public void SetMaxOutputBitrate(int maxOutputBitrate)
+        public async Task SetMaxOutputBitrateAsync(int maxOutputBitrate)
         {
-            client.Invoke(this, "setMaxOutputBitrate", new { maxOutputBitrate });
+            await client.InvokeAsync(this, "setMaxOutputBitrate", new { maxOutputBitrate });
         }
 
-		public ElementConnectionData[] GetSourceConnections(MediaType? mediaType=null,string description="")
+		public async Task<ElementConnectionData[]> GetSourceConnectionsAsync(MediaType? mediaType=null,string description="")
 		{
-			return client.Invoke(this, "getSourceConnections",new {mediaType,description}).GetValue<ElementConnectionData[]>();
+			return (await client.InvokeAsync(this, "getSourceConnections",new {mediaType,description})).GetValue<ElementConnectionData[]>();
 		}
-		public ElementConnectionData[] GetSinkConnections(MediaType? mediaType=null,string description="")
+		public async Task<ElementConnectionData[]> GetSinkConnectionsAsync(MediaType? mediaType=null,string description="")
 		{
-			return client.Invoke(this, "getSinkConnections",new {mediaType,description}).GetValue<ElementConnectionData[]>();
+			return (await client.InvokeAsync(this, "getSinkConnections",new {mediaType,description})).GetValue<ElementConnectionData[]>();
 		}
-		public void Connect(MediaElement sink,MediaType? mediaType=null,string sourceMediaDescription="",string sinkMediaDescription="")
+		public async Task ConnectAsync(MediaElement sink,MediaType? mediaType=null,string sourceMediaDescription="",string sinkMediaDescription="")
 		{
-			client.Invoke(this, "connect",new {sink,mediaType,sourceMediaDescription,sinkMediaDescription});
+			await client.InvokeAsync(this, "connect",new {sink,mediaType,sourceMediaDescription,sinkMediaDescription});
 		}
-		public void Disconnect(MediaElement sink,MediaType? mediaType=null,string sourceMediaDescription="",string sinkMediaDescription="")
+		public async Task DisconnectAsync(MediaElement sink,MediaType? mediaType=null,string sourceMediaDescription="",string sinkMediaDescription="")
 		{
-			client.Invoke(this, "disconnect",new {sink,mediaType,sourceMediaDescription,sinkMediaDescription});
+			await client.InvokeAsync(this, "disconnect",new {sink,mediaType,sourceMediaDescription,sinkMediaDescription});
 		}
-		public void SetAudioFormat(AudioCaps caps)
+		public async Task SetAudioFormatAsync(AudioCaps caps)
 		{
-			client.Invoke(this, "setAudioFormat",new {caps});
+			await client.InvokeAsync(this, "setAudioFormat",new {caps});
 		}
-		public void SetVideoFormat(VideoCaps caps)
+		public async Task SetVideoFormatAsync(VideoCaps caps)
 		{
-			client.Invoke(this, "setVideoFormat",new {caps});
+			await client.InvokeAsync(this, "setVideoFormat",new {caps});
 		}
-		public string GetGstreamerDot(GstreamerDotDetails? details=null)
+		public async Task<string> GetGstreamerDotAsync(GstreamerDotDetails? details=null)
 		{
-			return client.Invoke(this, "getGstreamerDot",new {details}).GetValue<string>();
+			return (await client.InvokeAsync(this, "getGstreamerDot",new {details})).GetValue<string>();
 		}
-		public void SetOutputBitrate(int bitrate)
+		public async Task SetOutputBitrateAsync(int bitrate)
 		{
-			client.Invoke(this, "setOutputBitrate",new {bitrate});
+			await client.InvokeAsync(this, "setOutputBitrate",new {bitrate});
 		}
-		public Dictionary<string,Stats> GetStats(MediaType? mediaType=null)
+		public async Task<Dictionary<string,Stats>> GetStatsAsync(MediaType? mediaType=null)
 		{
-			return client.Invoke(this, "getStats",new {mediaType}).GetValue<Dictionary<string,Stats>>();
+			return (await client.InvokeAsync(this, "getStats",new {mediaType})).GetValue<Dictionary<string,Stats>>();
 		}
-		public bool IsMediaFlowingIn(MediaType mediaType,string sinkMediaDescription="default")
+		public async Task<bool> IsMediaFlowingInAsync(MediaType mediaType,string sinkMediaDescription="default")
 		{
-			return client.Invoke(this, "isMediaFlowingIn",new {mediaType,sinkMediaDescription}).GetValue<bool>();
+			return (await client.InvokeAsync(this, "isMediaFlowingIn",new {mediaType,sinkMediaDescription})).GetValue<bool>();
 		}
-		public bool IsMediaFlowingOut(MediaType mediaType,string sourceMediaDescription="default")
+		public async Task<bool> IsMediaFlowingOutAsync(MediaType mediaType,string sourceMediaDescription="default")
 		{
-			return client.Invoke(this, "isMediaFlowingOut",new {mediaType,sourceMediaDescription}).GetValue<bool>();
+			return (await client.InvokeAsync(this, "isMediaFlowingOut",new {mediaType,sourceMediaDescription})).GetValue<bool>();
 		}
-		public bool IsMediaTranscoding(MediaType mediaType,string binName="default")
+		public async Task<bool> IsMediaTranscodingAsync(MediaType mediaType,string binName="default")
 		{
-			return client.Invoke(this, "isMediaTranscoding",new {mediaType,binName}).GetValue<bool>();
+			return (await client.InvokeAsync(this, "isMediaTranscoding",new {mediaType,binName})).GetValue<bool>();
 		}
 
 		public KMSEventHandler<ElementConnectedEventArgs>  _ElementConnected;
@@ -99,12 +99,12 @@ namespace Kurento.NET
 			add
 			{
 				_ElementConnected += value;
-				client.Subscribe(this, "ElementConnected");
+				client.SubscribeAsync(this, "ElementConnected");
 			}
 			remove
 			{
 				_ElementConnected -= value;
-				client.Unsubscribe(this, "ElementConnected");
+				client.UnsubscribeAsync(this, "ElementConnected");
 			}
 		}
 		public KMSEventHandler<ElementDisconnectedEventArgs>  _ElementDisconnected;
@@ -113,12 +113,12 @@ namespace Kurento.NET
 			add
 			{
 				_ElementDisconnected += value;
-				client.Subscribe(this, "ElementDisconnected");
+				client.SubscribeAsync(this, "ElementDisconnected");
 			}
 			remove
 			{
 				_ElementDisconnected -= value;
-				client.Unsubscribe(this, "ElementDisconnected");
+				client.UnsubscribeAsync(this, "ElementDisconnected");
 			}
 		}
 		public KMSEventHandler<MediaFlowOutStateChangeEventArgs>  _MediaFlowOutStateChange;
@@ -127,12 +127,12 @@ namespace Kurento.NET
 			add
 			{
 				_MediaFlowOutStateChange += value;
-				client.Subscribe(this, "MediaFlowOutStateChange");
+				client.SubscribeAsync(this, "MediaFlowOutStateChange");
 			}
 			remove
 			{
 				_MediaFlowOutStateChange -= value;
-				client.Unsubscribe(this, "MediaFlowOutStateChange");
+				client.UnsubscribeAsync(this, "MediaFlowOutStateChange");
 			}
 		}
 		public KMSEventHandler<MediaFlowInStateChangeEventArgs>  _MediaFlowInStateChange;
@@ -141,12 +141,12 @@ namespace Kurento.NET
 			add
 			{
 				_MediaFlowInStateChange += value;
-				client.Subscribe(this, "MediaFlowInStateChange");
+				client.SubscribeAsync(this, "MediaFlowInStateChange");
 			}
 			remove
 			{
 				_MediaFlowInStateChange -= value;
-				client.Unsubscribe(this, "MediaFlowInStateChange");
+				client.UnsubscribeAsync(this, "MediaFlowInStateChange");
 			}
 		}
 		public KMSEventHandler<MediaTranscodingStateChangeEventArgs>  _MediaTranscodingStateChange;
@@ -155,12 +155,12 @@ namespace Kurento.NET
 			add
 			{
 				_MediaTranscodingStateChange += value;
-				client.Subscribe(this, "MediaTranscodingStateChange");
+				client.SubscribeAsync(this, "MediaTranscodingStateChange");
 			}
 			remove
 			{
 				_MediaTranscodingStateChange -= value;
-				client.Unsubscribe(this, "MediaTranscodingStateChange");
+				client.UnsubscribeAsync(this, "MediaTranscodingStateChange");
 			}
 		}
 

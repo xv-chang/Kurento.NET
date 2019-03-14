@@ -11,45 +11,45 @@ namespace Kurento.NET
     public class BaseRtpEndpoint :SdpEndpoint
 	{
 
-		public int GetMinVideoRecvBandwidth()
+		public async Task<int> GetMinVideoRecvBandwidthAsync()
         {
-            return client.Invoke(this, "getMinVideoRecvBandwidth").GetValue<int>();
+            return (await client.InvokeAsync(this, "getMinVideoRecvBandwidth")).GetValue<int>();
         }
-        public void SetMinVideoRecvBandwidth(int minVideoRecvBandwidth)
+        public async Task SetMinVideoRecvBandwidthAsync(int minVideoRecvBandwidth)
         {
-            client.Invoke(this, "setMinVideoRecvBandwidth", new { minVideoRecvBandwidth });
+            await client.InvokeAsync(this, "setMinVideoRecvBandwidth", new { minVideoRecvBandwidth });
         }
-		public int GetMinVideoSendBandwidth()
+		public async Task<int> GetMinVideoSendBandwidthAsync()
         {
-            return client.Invoke(this, "getMinVideoSendBandwidth").GetValue<int>();
+            return (await client.InvokeAsync(this, "getMinVideoSendBandwidth")).GetValue<int>();
         }
-        public void SetMinVideoSendBandwidth(int minVideoSendBandwidth)
+        public async Task SetMinVideoSendBandwidthAsync(int minVideoSendBandwidth)
         {
-            client.Invoke(this, "setMinVideoSendBandwidth", new { minVideoSendBandwidth });
+            await client.InvokeAsync(this, "setMinVideoSendBandwidth", new { minVideoSendBandwidth });
         }
-		public int GetMaxVideoSendBandwidth()
+		public async Task<int> GetMaxVideoSendBandwidthAsync()
         {
-            return client.Invoke(this, "getMaxVideoSendBandwidth").GetValue<int>();
+            return (await client.InvokeAsync(this, "getMaxVideoSendBandwidth")).GetValue<int>();
         }
-        public void SetMaxVideoSendBandwidth(int maxVideoSendBandwidth)
+        public async Task SetMaxVideoSendBandwidthAsync(int maxVideoSendBandwidth)
         {
-            client.Invoke(this, "setMaxVideoSendBandwidth", new { maxVideoSendBandwidth });
+            await client.InvokeAsync(this, "setMaxVideoSendBandwidth", new { maxVideoSendBandwidth });
         }
-		public MediaState GetMediaState()
+		public async Task<MediaState> GetMediaStateAsync()
         {
-            return client.Invoke(this, "getMediaState").GetValue<MediaState>();
+            return (await client.InvokeAsync(this, "getMediaState")).GetValue<MediaState>();
         }
-		public ConnectionState GetConnectionState()
+		public async Task<ConnectionState> GetConnectionStateAsync()
         {
-            return client.Invoke(this, "getConnectionState").GetValue<ConnectionState>();
+            return (await client.InvokeAsync(this, "getConnectionState")).GetValue<ConnectionState>();
         }
-		public RembParams GetRembParams()
+		public async Task<RembParams> GetRembParamsAsync()
         {
-            return client.Invoke(this, "getRembParams").GetValue<RembParams>();
+            return (await client.InvokeAsync(this, "getRembParams")).GetValue<RembParams>();
         }
-        public void SetRembParams(RembParams rembParams)
+        public async Task SetRembParamsAsync(RembParams rembParams)
         {
-            client.Invoke(this, "setRembParams", new { rembParams });
+            await client.InvokeAsync(this, "setRembParams", new { rembParams });
         }
 
 
@@ -59,12 +59,12 @@ namespace Kurento.NET
 			add
 			{
 				_MediaStateChanged += value;
-				client.Subscribe(this, "MediaStateChanged");
+				client.SubscribeAsync(this, "MediaStateChanged");
 			}
 			remove
 			{
 				_MediaStateChanged -= value;
-				client.Unsubscribe(this, "MediaStateChanged");
+				client.UnsubscribeAsync(this, "MediaStateChanged");
 			}
 		}
 		public KMSEventHandler<ConnectionStateChangedEventArgs>  _ConnectionStateChanged;
@@ -73,12 +73,12 @@ namespace Kurento.NET
 			add
 			{
 				_ConnectionStateChanged += value;
-				client.Subscribe(this, "ConnectionStateChanged");
+				client.SubscribeAsync(this, "ConnectionStateChanged");
 			}
 			remove
 			{
 				_ConnectionStateChanged -= value;
-				client.Unsubscribe(this, "ConnectionStateChanged");
+				client.UnsubscribeAsync(this, "ConnectionStateChanged");
 			}
 		}
 

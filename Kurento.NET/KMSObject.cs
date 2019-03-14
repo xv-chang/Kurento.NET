@@ -17,7 +17,7 @@ namespace Kurento.NET
         public string id;
         public void Dispose()
         {
-            client.Release(this);
+            client.ReleaseAsync(this);
         }
     }
 }

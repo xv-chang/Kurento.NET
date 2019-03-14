@@ -16,13 +16,13 @@ namespace Kurento.NET
 		}
 
 
-		public void SetSource(HubPort source)
+		public async Task SetSourceAsync(HubPort source)
 		{
-			client.Invoke(this, "setSource",new {source});
+			await client.InvokeAsync(this, "setSource",new {source});
 		}
-		public void RemoveSource()
+		public async Task RemoveSourceAsync()
 		{
-			client.Invoke(this, "removeSource",null);
+			await client.InvokeAsync(this, "removeSource",null);
 		}
 
 

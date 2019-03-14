@@ -22,14 +22,33 @@ namespace Kurento.NET
         private ConcurrentDictionary<int, KMSResponse> repsonses = new ConcurrentDictionary<int, KMSResponse>();
         private ConcurrentDictionary<string, KMSObject> objects = new ConcurrentDictionary<string, KMSObject>();
         private readonly ILogger _logger;
+        private bool ready;
+        private bool connecting;
+        private readonly string _uri;
         public KurentoClient(string uri, ILogger logger = null)
         {
             _logger = logger ?? new NullLogger();
+            _uri = uri;
             clientWebSocket = new ClientWebSocket();
-            clientWebSocket.ConnectAsync(new Uri(uri), CancellationToken.None);
             Task.Run(() => ReceiveAsync(clientWebSocket));
-
         }
+        private async Task WaitConnectedAsync()
+        {
+            while (!ready)
+            {
+                if (!connecting)
+                {
+                    connecting = true;
+                    await clientWebSocket.ConnectAsync(new Uri(_uri), CancellationToken.None);
+                    ready = true;
+                }
+                else
+                {
+                    await Task.Delay(100);
+                }
+            }
+        }
+       
         private async Task ReceiveAsync(ClientWebSocket client)
         {
             var buffer = new byte[1024 * 4];
@@ -103,6 +122,7 @@ namespace Kurento.NET
             _logger.LogInformation(jsonStr);
             requests[requestId] = jsonStr;
             var buffer = Encoding.UTF8.GetBytes(jsonStr);
+            await WaitConnectedAsync();
             await clientWebSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
             while (!repsonses.ContainsKey(requestId))
                 Thread.Sleep(100);
@@ -113,49 +133,49 @@ namespace Kurento.NET
                 _logger.LogError(resp.Error.Message);
             return resp;
         }
-        public T Create<T>(T instance) where T : KMSObject
+        public async Task<T> CreateAsync<T>(T instance) where T : KMSObject
         {
-            KMSResponse r = SendAsync("create", new
+            KMSResponse r = await SendAsync("create", new
             {
                 type = typeof(T).Name,
                 instance.constructorParams
-            }).Result;
+            });
             instance.client = this;
             instance.id = r.GetStringValue();
             objects[instance.id] = instance;
             return instance;
         }
-        public KMSResponse Invoke<T>(T instance, string operation, object operationParams = null) where T : KMSObject
+        public async Task<KMSResponse> InvokeAsync<T>(T instance, string operation, object operationParams = null) where T : KMSObject
         {
-            return SendAsync("invoke", new
+            return await SendAsync("invoke", new
             {
                 @object = instance.id,
                 operation,
                 operationParams
-            }).Result;
+            });
         }
-        public void Subscribe<T>(T instance, string type) where T : KMSObject
+        public async Task SubscribeAsync<T>(T instance, string type) where T : KMSObject
         {
-            KMSResponse r = SendAsync("subscribe", new
+            await SendAsync("subscribe", new
             {
                 @object = instance.id,
                 type
-            }).Result;
+            });
         }
-        public void Unsubscribe<T>(T instance, string subscription) where T : KMSObject
+        public async Task UnsubscribeAsync<T>(T instance, string subscription) where T : KMSObject
         {
-            var r = SendAsync("unsubscribe", new
+            await SendAsync("unsubscribe", new
             {
                 @object = instance.id,
                 subscription
-            }).Result;
+            });
         }
-        public void Release<T>(T instance) where T : KMSObject
+        public async Task ReleaseAsync<T>(T instance) where T : KMSObject
         {
-            var r = SendAsync("release", new
+            await SendAsync("release", new
             {
                 @object = instance.id
-            }).Result;
+            });
             objects.TryRemove(instance.id, out KMSObject _);
         }
         public ServerManager GetServerManager()

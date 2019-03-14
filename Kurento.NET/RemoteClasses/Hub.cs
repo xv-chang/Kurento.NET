@@ -12,9 +12,9 @@ namespace Kurento.NET
 	{
 
 
-		public string GetGstreamerDot(GstreamerDotDetails? details=null)
+		public async Task<string> GetGstreamerDotAsync(GstreamerDotDetails? details=null)
 		{
-			return client.Invoke(this, "getGstreamerDot",new {details}).GetValue<string>();
+			return (await client.InvokeAsync(this, "getGstreamerDot",new {details})).GetValue<string>();
 		}
 
 

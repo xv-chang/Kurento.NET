@@ -23,12 +23,12 @@ namespace Kurento.NET
 			add
 			{
 				_OnKeySoftLimit += value;
-				client.Subscribe(this, "OnKeySoftLimit");
+				client.SubscribeAsync(this, "OnKeySoftLimit");
 			}
 			remove
 			{
 				_OnKeySoftLimit -= value;
-				client.Unsubscribe(this, "OnKeySoftLimit");
+				client.UnsubscribeAsync(this, "OnKeySoftLimit");
 			}
 		}
 

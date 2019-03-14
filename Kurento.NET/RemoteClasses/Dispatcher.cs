@@ -16,9 +16,9 @@ namespace Kurento.NET
 		}
 
 
-		public void Connect(HubPort source,HubPort sink)
+		public async Task ConnectAsync(HubPort source,HubPort sink)
 		{
-			client.Invoke(this, "connect",new {source,sink});
+			await client.InvokeAsync(this, "connect",new {source,sink});
 		}
 
 

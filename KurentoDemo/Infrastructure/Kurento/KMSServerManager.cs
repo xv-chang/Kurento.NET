@@ -60,7 +60,7 @@ namespace KurentoDemo.Infrastructure.Kurento
             var randomNode = serverPipeline.SlavePipelines.OrderBy(x => Guid.NewGuid()).FirstOrDefault();
             var slaveServerId = randomNode.Key;
             var slavePipeline = randomNode.Value;
-            var webRtcEndPoint = slavePipeline.client.Create(new WebRtcEndpoint(slavePipeline));
+            var webRtcEndPoint = slavePipeline.client.CreateAsync(new WebRtcEndpoint(slavePipeline));
             //rtpEndPoint 连接到 webRtcEndPoint
             var rtpEndPoint = serverPipeline.SlaveRtpEndPoints[slaveServerId];
             rtpEndPoint.Connect(webRtcEndPoint);
@@ -71,7 +71,7 @@ namespace KurentoDemo.Infrastructure.Kurento
             var serverPipeline = pipelines.FirstOrDefault(x => x.Id == id);
             //随机分配一个接收节点
             var masterPipeline = serverPipeline.MasterPipeline;
-            var webRtcEndPoint = masterPipeline.client.Create(new WebRtcEndpoint(masterPipeline));
+            var webRtcEndPoint = masterPipeline.client.CreateAsync(new WebRtcEndpoint(masterPipeline));
             //webRtcEndPoint 连接到 rtpEndPoint
             foreach (var rtpEndpoint in serverPipeline.MasterRtpEndPoints.Values)
             {

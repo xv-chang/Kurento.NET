@@ -15,18 +15,18 @@ namespace Kurento.NET
 			constructorParams=null;
 		}
 
-		public bool GetLatencyStats()
+		public async Task<bool> GetLatencyStatsAsync()
         {
-            return client.Invoke(this, "getLatencyStats").GetValue<bool>();
+            return (await client.InvokeAsync(this, "getLatencyStats")).GetValue<bool>();
         }
-        public void SetLatencyStats(bool latencyStats)
+        public async Task SetLatencyStatsAsync(bool latencyStats)
         {
-            client.Invoke(this, "setLatencyStats", new { latencyStats });
+            await client.InvokeAsync(this, "setLatencyStats", new { latencyStats });
         }
 
-		public string GetGstreamerDot(GstreamerDotDetails? details=null)
+		public async Task<string> GetGstreamerDotAsync(GstreamerDotDetails? details=null)
 		{
-			return client.Invoke(this, "getGstreamerDot",new {details}).GetValue<string>();
+			return (await client.InvokeAsync(this, "getGstreamerDot",new {details})).GetValue<string>();
 		}
 
 

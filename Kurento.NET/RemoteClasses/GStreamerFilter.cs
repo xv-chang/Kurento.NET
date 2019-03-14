@@ -15,14 +15,14 @@ namespace Kurento.NET
 			constructorParams=new {mediaPipeline,command,filterType};
 		}
 
-		public string GetCommand()
+		public async Task<string> GetCommandAsync()
         {
-            return client.Invoke(this, "getCommand").GetValue<string>();
+            return (await client.InvokeAsync(this, "getCommand")).GetValue<string>();
         }
 
-		public void SetElementProperty(string propertyName,string propertyValue)
+		public async Task SetElementPropertyAsync(string propertyName,string propertyValue)
 		{
-			client.Invoke(this, "setElementProperty",new {propertyName,propertyValue});
+			await client.InvokeAsync(this, "setElementProperty",new {propertyName,propertyValue});
 		}
 
 

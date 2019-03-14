@@ -11,30 +11,30 @@ namespace Kurento.NET
     public class ServerManager :MediaObject
 	{
 
-		public ServerInfo GetInfo()
+		public async Task<ServerInfo> GetInfoAsync()
         {
-            return client.Invoke(this, "getInfo").GetValue<ServerInfo>();
+            return (await client.InvokeAsync(this, "getInfo")).GetValue<ServerInfo>();
         }
-		public MediaPipeline[] GetPipelines()
+		public async Task<MediaPipeline[]> GetPipelinesAsync()
         {
-            return client.Invoke(this, "getPipelines").GetValue<MediaPipeline[]>();
+            return (await client.InvokeAsync(this, "getPipelines")).GetValue<MediaPipeline[]>();
         }
-		public String[] GetSessions()
+		public async Task<String[]> GetSessionsAsync()
         {
-            return client.Invoke(this, "getSessions").GetValue<String[]>();
+            return (await client.InvokeAsync(this, "getSessions")).GetValue<String[]>();
         }
-		public string GetMetadata()
+		public async Task<string> GetMetadataAsync()
         {
-            return client.Invoke(this, "getMetadata").GetValue<string>();
+            return (await client.InvokeAsync(this, "getMetadata")).GetValue<string>();
         }
 
-		public string GetKmd(string moduleName)
+		public async Task<string> GetKmdAsync(string moduleName)
 		{
-			return client.Invoke(this, "getKmd",new {moduleName}).GetValue<string>();
+			return (await client.InvokeAsync(this, "getKmd",new {moduleName})).GetValue<string>();
 		}
-		public Int64 GetUsedMemory()
+		public async Task<Int64> GetUsedMemoryAsync()
 		{
-			return client.Invoke(this, "getUsedMemory",null).GetValue<Int64>();
+			return (await client.InvokeAsync(this, "getUsedMemory",null)).GetValue<Int64>();
 		}
 
 		public KMSEventHandler<ObjectCreatedEventArgs>  _ObjectCreated;
@@ -43,12 +43,12 @@ namespace Kurento.NET
 			add
 			{
 				_ObjectCreated += value;
-				client.Subscribe(this, "ObjectCreated");
+				client.SubscribeAsync(this, "ObjectCreated");
 			}
 			remove
 			{
 				_ObjectCreated -= value;
-				client.Unsubscribe(this, "ObjectCreated");
+				client.UnsubscribeAsync(this, "ObjectCreated");
 			}
 		}
 		public KMSEventHandler<ObjectDestroyedEventArgs>  _ObjectDestroyed;
@@ -57,12 +57,12 @@ namespace Kurento.NET
 			add
 			{
 				_ObjectDestroyed += value;
-				client.Subscribe(this, "ObjectDestroyed");
+				client.SubscribeAsync(this, "ObjectDestroyed");
 			}
 			remove
 			{
 				_ObjectDestroyed -= value;
-				client.Unsubscribe(this, "ObjectDestroyed");
+				client.UnsubscribeAsync(this, "ObjectDestroyed");
 			}
 		}
 
