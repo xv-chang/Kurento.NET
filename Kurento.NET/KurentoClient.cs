@@ -30,7 +30,6 @@ namespace Kurento.NET
             _logger = logger ?? new NullLogger();
             _uri = uri;
             clientWebSocket = new ClientWebSocket();
-            Task.Run(() => ReceiveAsync(clientWebSocket));
         }
         private async Task WaitConnectedAsync()
         {
@@ -40,6 +39,7 @@ namespace Kurento.NET
                 {
                     connecting = true;
                     await clientWebSocket.ConnectAsync(new Uri(_uri), CancellationToken.None);
+                    Task.Run(() => ReceiveAsync(clientWebSocket));
                     ready = true;
                 }
                 else
@@ -48,7 +48,7 @@ namespace Kurento.NET
                 }
             }
         }
-       
+
         private async Task ReceiveAsync(ClientWebSocket client)
         {
             var buffer = new byte[1024 * 4];
@@ -241,4 +241,6 @@ namespace Kurento.NET
         public string Code { set; get; }
         public string Message { set; get; }
     }
+
+   
 }
