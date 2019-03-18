@@ -12,9 +12,9 @@ namespace Kurento.NET
 	{
 
 
-		public string GetUrl()
+		public async Task<string> GetUrlAsync()
 		{
-			return client.Invoke(this, "getUrl",null).GetValue<string>();
+			return (await client.InvokeAsync(this, "getUrl",null)).GetValue<string>();
 		}
 
 

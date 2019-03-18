@@ -16,13 +16,13 @@ namespace Kurento.NET
 		}
 
 
-		public void Connect(MediaType media,HubPort source,HubPort sink)
+		public async Task ConnectAsync(MediaType media,HubPort source,HubPort sink)
 		{
-			client.Invoke(this, "connect",new {media,source,sink});
+			await client.InvokeAsync(this, "connect",new {media,source,sink});
 		}
-		public void Disconnect(MediaType media,HubPort source,HubPort sink)
+		public async Task DisconnectAsync(MediaType media,HubPort source,HubPort sink)
 		{
-			client.Invoke(this, "disconnect",new {media,source,sink});
+			await client.InvokeAsync(this, "disconnect",new {media,source,sink});
 		}
 
 

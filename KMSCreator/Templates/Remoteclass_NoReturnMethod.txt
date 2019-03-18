@@ -1,4 +1,4 @@
-﻿		public void ${upperName}(${args})
+﻿		public async Task ${upperName}Async(${args})
 		{
-			client.Invoke(this, "${name}",${argNames});
+			await client.InvokeAsync(this, "${name}",${argNames});
 		}

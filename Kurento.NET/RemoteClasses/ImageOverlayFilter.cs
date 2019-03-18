@@ -16,13 +16,13 @@ namespace Kurento.NET
 		}
 
 
-		public void RemoveImage(string id)
+		public async Task RemoveImageAsync(string id)
 		{
-			client.Invoke(this, "removeImage",new {id});
+			await client.InvokeAsync(this, "removeImage",new {id});
 		}
-		public void AddImage(string id,string uri,float offsetXPercent,float offsetYPercent,float widthPercent,float heightPercent,bool keepAspectRatio,bool center)
+		public async Task AddImageAsync(string id,string uri,float offsetXPercent,float offsetYPercent,float widthPercent,float heightPercent,bool keepAspectRatio,bool center)
 		{
-			client.Invoke(this, "addImage",new {id,uri,offsetXPercent,offsetYPercent,widthPercent,heightPercent,keepAspectRatio,center});
+			await client.InvokeAsync(this, "addImage",new {id,uri,offsetXPercent,offsetYPercent,widthPercent,heightPercent,keepAspectRatio,center});
 		}
 
 

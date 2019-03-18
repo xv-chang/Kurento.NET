@@ -16,13 +16,13 @@ namespace Kurento.NET
 		}
 
 
-		public void SetMaster(HubPort source,int zOrder)
+		public async Task SetMasterAsync(HubPort source,int zOrder)
 		{
-			client.Invoke(this, "setMaster",new {source,zOrder});
+			await client.InvokeAsync(this, "setMaster",new {source,zOrder});
 		}
-		public void SetPortProperties(float relativeX,float relativeY,int zOrder,float relativeWidth,float relativeHeight,HubPort port)
+		public async Task SetPortPropertiesAsync(float relativeX,float relativeY,int zOrder,float relativeWidth,float relativeHeight,HubPort port)
 		{
-			client.Invoke(this, "setPortProperties",new {relativeX,relativeY,zOrder,relativeWidth,relativeHeight,port});
+			await client.InvokeAsync(this, "setPortProperties",new {relativeX,relativeY,zOrder,relativeWidth,relativeHeight,port});
 		}
 
 

@@ -19,7 +19,8 @@ namespace Kurento.NET
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-
+            //var r = formatter(state, exception);
+            //Console.WriteLine(r);
         }
     }
 }

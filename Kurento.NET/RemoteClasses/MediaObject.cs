@@ -11,78 +11,78 @@ namespace Kurento.NET
     public class MediaObject :KMSObject
 	{
 
-		public MediaPipeline GetMediaPipeline()
+		public async Task<MediaPipeline> GetMediaPipelineAsync()
         {
-            return client.Invoke(this, "getMediaPipeline").GetValue<MediaPipeline>();
+            return (await client.InvokeAsync(this, "getMediaPipeline")).GetValue<MediaPipeline>();
         }
-        public void SetMediaPipeline(MediaPipeline mediaPipeline)
+        public async Task SetMediaPipelineAsync(MediaPipeline mediaPipeline)
         {
-            client.Invoke(this, "setMediaPipeline", new { mediaPipeline });
+            await client.InvokeAsync(this, "setMediaPipeline", new { mediaPipeline });
         }
-		public MediaObject GetParent()
+		public async Task<MediaObject> GetParentAsync()
         {
-            return client.Invoke(this, "getParent").GetValue<MediaObject>();
+            return (await client.InvokeAsync(this, "getParent")).GetValue<MediaObject>();
         }
-        public void SetParent(MediaObject parent)
+        public async Task SetParentAsync(MediaObject parent)
         {
-            client.Invoke(this, "setParent", new { parent });
+            await client.InvokeAsync(this, "setParent", new { parent });
         }
-		public string GetId()
+		public async Task<string> GetIdAsync()
         {
-            return client.Invoke(this, "getId").GetValue<string>();
+            return (await client.InvokeAsync(this, "getId")).GetValue<string>();
         }
-        public void SetId(string id)
+        public async Task SetIdAsync(string id)
         {
-            client.Invoke(this, "setId", new { id });
+            await client.InvokeAsync(this, "setId", new { id });
         }
-		public MediaObject[] GetChilds()
+		public async Task<MediaObject[]> GetChildsAsync()
         {
-            return client.Invoke(this, "getChilds").GetValue<MediaObject[]>();
+            return (await client.InvokeAsync(this, "getChilds")).GetValue<MediaObject[]>();
         }
-		public MediaObject[] GetChildren()
+		public async Task<MediaObject[]> GetChildrenAsync()
         {
-            return client.Invoke(this, "getChildren").GetValue<MediaObject[]>();
+            return (await client.InvokeAsync(this, "getChildren")).GetValue<MediaObject[]>();
         }
-		public string GetName()
+		public async Task<string> GetNameAsync()
         {
-            return client.Invoke(this, "getName").GetValue<string>();
+            return (await client.InvokeAsync(this, "getName")).GetValue<string>();
         }
-        public void SetName(string name)
+        public async Task SetNameAsync(string name)
         {
-            client.Invoke(this, "setName", new { name });
+            await client.InvokeAsync(this, "setName", new { name });
         }
-		public bool GetSendTagsInEvents()
+		public async Task<bool> GetSendTagsInEventsAsync()
         {
-            return client.Invoke(this, "getSendTagsInEvents").GetValue<bool>();
+            return (await client.InvokeAsync(this, "getSendTagsInEvents")).GetValue<bool>();
         }
-        public void SetSendTagsInEvents(bool sendTagsInEvents)
+        public async Task SetSendTagsInEventsAsync(bool sendTagsInEvents)
         {
-            client.Invoke(this, "setSendTagsInEvents", new { sendTagsInEvents });
+            await client.InvokeAsync(this, "setSendTagsInEvents", new { sendTagsInEvents });
         }
-		public int GetCreationTime()
+		public async Task<int> GetCreationTimeAsync()
         {
-            return client.Invoke(this, "getCreationTime").GetValue<int>();
+            return (await client.InvokeAsync(this, "getCreationTime")).GetValue<int>();
         }
-        public void SetCreationTime(int creationTime)
+        public async Task SetCreationTimeAsync(int creationTime)
         {
-            client.Invoke(this, "setCreationTime", new { creationTime });
+            await client.InvokeAsync(this, "setCreationTime", new { creationTime });
         }
 
-		public void AddTag(string key,string value)
+		public async Task AddTagAsync(string key,string value)
 		{
-			client.Invoke(this, "addTag",new {key,value});
+			await client.InvokeAsync(this, "addTag",new {key,value});
 		}
-		public void RemoveTag(string key)
+		public async Task RemoveTagAsync(string key)
 		{
-			client.Invoke(this, "removeTag",new {key});
+			await client.InvokeAsync(this, "removeTag",new {key});
 		}
-		public string GetTag(string key)
+		public async Task<string> GetTagAsync(string key)
 		{
-			return client.Invoke(this, "getTag",new {key}).GetValue<string>();
+			return (await client.InvokeAsync(this, "getTag",new {key})).GetValue<string>();
 		}
-		public Tag[] GetTags()
+		public async Task<Tag[]> GetTagsAsync()
 		{
-			return client.Invoke(this, "getTags",null).GetValue<Tag[]>();
+			return (await client.InvokeAsync(this, "getTags",null)).GetValue<Tag[]>();
 		}
 
 		public KMSEventHandler<ErrorEventArgs>  _Error;
@@ -91,12 +91,12 @@ namespace Kurento.NET
 			add
 			{
 				_Error += value;
-				client.Subscribe(this, "Error");
+				client.SubscribeAsync(this, "Error");
 			}
 			remove
 			{
 				_Error -= value;
-				client.Unsubscribe(this, "Error");
+				client.UnsubscribeAsync(this, "Error");
 			}
 		}
 

@@ -4,11 +4,11 @@
 			add
 			{
 				_${name} += value;
-				client.Subscribe(this, "${name}");
+				client.SubscribeAsync(this, "${name}");
 			}
 			remove
 			{
 				_${name} -= value;
-				client.Unsubscribe(this, "${name}");
+				client.UnsubscribeAsync(this, "${name}");
 			}
 		}

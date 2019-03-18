@@ -19,12 +19,12 @@ namespace Kurento.NET
 			add
 			{
 				_MediaSessionTerminated += value;
-				client.Subscribe(this, "MediaSessionTerminated");
+				client.SubscribeAsync(this, "MediaSessionTerminated");
 			}
 			remove
 			{
 				_MediaSessionTerminated -= value;
-				client.Unsubscribe(this, "MediaSessionTerminated");
+				client.UnsubscribeAsync(this, "MediaSessionTerminated");
 			}
 		}
 		public KMSEventHandler<MediaSessionStartedEventArgs>  _MediaSessionStarted;
@@ -33,12 +33,12 @@ namespace Kurento.NET
 			add
 			{
 				_MediaSessionStarted += value;
-				client.Subscribe(this, "MediaSessionStarted");
+				client.SubscribeAsync(this, "MediaSessionStarted");
 			}
 			remove
 			{
 				_MediaSessionStarted -= value;
-				client.Unsubscribe(this, "MediaSessionStarted");
+				client.UnsubscribeAsync(this, "MediaSessionStarted");
 			}
 		}
 

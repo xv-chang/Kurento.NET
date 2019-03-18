@@ -23,12 +23,12 @@ namespace Kurento.NET
 			add
 			{
 				_CodeFound += value;
-				client.Subscribe(this, "CodeFound");
+				client.SubscribeAsync(this, "CodeFound");
 			}
 			remove
 			{
 				_CodeFound -= value;
-				client.Unsubscribe(this, "CodeFound");
+				client.UnsubscribeAsync(this, "CodeFound");
 			}
 		}
 

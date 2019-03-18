@@ -15,54 +15,54 @@ namespace Kurento.NET
 			constructorParams=new {mediaPipeline,recvonly,sendonly,useDataChannels,certificateKeyType};
 		}
 
-		public string GetStunServerAddress()
+		public async Task<string> GetStunServerAddressAsync()
         {
-            return client.Invoke(this, "getStunServerAddress").GetValue<string>();
+            return (await client.InvokeAsync(this, "getStunServerAddress")).GetValue<string>();
         }
-        public void SetStunServerAddress(string stunServerAddress)
+        public async Task SetStunServerAddressAsync(string stunServerAddress)
         {
-            client.Invoke(this, "setStunServerAddress", new { stunServerAddress });
+            await client.InvokeAsync(this, "setStunServerAddress", new { stunServerAddress });
         }
-		public int GetStunServerPort()
+		public async Task<int> GetStunServerPortAsync()
         {
-            return client.Invoke(this, "getStunServerPort").GetValue<int>();
+            return (await client.InvokeAsync(this, "getStunServerPort")).GetValue<int>();
         }
-        public void SetStunServerPort(int stunServerPort)
+        public async Task SetStunServerPortAsync(int stunServerPort)
         {
-            client.Invoke(this, "setStunServerPort", new { stunServerPort });
+            await client.InvokeAsync(this, "setStunServerPort", new { stunServerPort });
         }
-		public string GetTurnUrl()
+		public async Task<string> GetTurnUrlAsync()
         {
-            return client.Invoke(this, "getTurnUrl").GetValue<string>();
+            return (await client.InvokeAsync(this, "getTurnUrl")).GetValue<string>();
         }
-        public void SetTurnUrl(string turnUrl)
+        public async Task SetTurnUrlAsync(string turnUrl)
         {
-            client.Invoke(this, "setTurnUrl", new { turnUrl });
+            await client.InvokeAsync(this, "setTurnUrl", new { turnUrl });
         }
-		public IceCandidatePair[] GetICECandidatePairs()
+		public async Task<IceCandidatePair[]> GetICECandidatePairsAsync()
         {
-            return client.Invoke(this, "getICECandidatePairs").GetValue<IceCandidatePair[]>();
+            return (await client.InvokeAsync(this, "getICECandidatePairs")).GetValue<IceCandidatePair[]>();
         }
-		public IceConnection[] GetIceConnectionState()
+		public async Task<IceConnection[]> GetIceConnectionStateAsync()
         {
-            return client.Invoke(this, "getIceConnectionState").GetValue<IceConnection[]>();
+            return (await client.InvokeAsync(this, "getIceConnectionState")).GetValue<IceConnection[]>();
         }
 
-		public void GatherCandidates()
+		public async Task GatherCandidatesAsync()
 		{
-			client.Invoke(this, "gatherCandidates",null);
+			await client.InvokeAsync(this, "gatherCandidates",null);
 		}
-		public void AddIceCandidate(IceCandidate candidate)
+		public async Task AddIceCandidateAsync(IceCandidate candidate)
 		{
-			client.Invoke(this, "addIceCandidate",new {candidate});
+			await client.InvokeAsync(this, "addIceCandidate",new {candidate});
 		}
-		public void CreateDataChannel(string label="",bool ordered=true,int maxPacketLifeTime=-1,int maxRetransmits=-1,string protocol="")
+		public async Task CreateDataChannelAsync(string label="",bool ordered=true,int maxPacketLifeTime=-1,int maxRetransmits=-1,string protocol="")
 		{
-			client.Invoke(this, "createDataChannel",new {label,ordered,maxPacketLifeTime,maxRetransmits,protocol});
+			await client.InvokeAsync(this, "createDataChannel",new {label,ordered,maxPacketLifeTime,maxRetransmits,protocol});
 		}
-		public void CloseDataChannel(int channelId)
+		public async Task CloseDataChannelAsync(int channelId)
 		{
-			client.Invoke(this, "closeDataChannel",new {channelId});
+			await client.InvokeAsync(this, "closeDataChannel",new {channelId});
 		}
 
 		public KMSEventHandler<OnIceCandidateEventArgs>  _OnIceCandidate;
@@ -71,12 +71,12 @@ namespace Kurento.NET
 			add
 			{
 				_OnIceCandidate += value;
-				client.Subscribe(this, "OnIceCandidate");
+				client.SubscribeAsync(this, "OnIceCandidate");
 			}
 			remove
 			{
 				_OnIceCandidate -= value;
-				client.Unsubscribe(this, "OnIceCandidate");
+				client.UnsubscribeAsync(this, "OnIceCandidate");
 			}
 		}
 		public KMSEventHandler<IceCandidateFoundEventArgs>  _IceCandidateFound;
@@ -85,12 +85,12 @@ namespace Kurento.NET
 			add
 			{
 				_IceCandidateFound += value;
-				client.Subscribe(this, "IceCandidateFound");
+				client.SubscribeAsync(this, "IceCandidateFound");
 			}
 			remove
 			{
 				_IceCandidateFound -= value;
-				client.Unsubscribe(this, "IceCandidateFound");
+				client.UnsubscribeAsync(this, "IceCandidateFound");
 			}
 		}
 		public KMSEventHandler<OnIceGatheringDoneEventArgs>  _OnIceGatheringDone;
@@ -99,12 +99,12 @@ namespace Kurento.NET
 			add
 			{
 				_OnIceGatheringDone += value;
-				client.Subscribe(this, "OnIceGatheringDone");
+				client.SubscribeAsync(this, "OnIceGatheringDone");
 			}
 			remove
 			{
 				_OnIceGatheringDone -= value;
-				client.Unsubscribe(this, "OnIceGatheringDone");
+				client.UnsubscribeAsync(this, "OnIceGatheringDone");
 			}
 		}
 		public KMSEventHandler<IceGatheringDoneEventArgs>  _IceGatheringDone;
@@ -113,12 +113,12 @@ namespace Kurento.NET
 			add
 			{
 				_IceGatheringDone += value;
-				client.Subscribe(this, "IceGatheringDone");
+				client.SubscribeAsync(this, "IceGatheringDone");
 			}
 			remove
 			{
 				_IceGatheringDone -= value;
-				client.Unsubscribe(this, "IceGatheringDone");
+				client.UnsubscribeAsync(this, "IceGatheringDone");
 			}
 		}
 		public KMSEventHandler<OnIceComponentStateChangedEventArgs>  _OnIceComponentStateChanged;
@@ -127,12 +127,12 @@ namespace Kurento.NET
 			add
 			{
 				_OnIceComponentStateChanged += value;
-				client.Subscribe(this, "OnIceComponentStateChanged");
+				client.SubscribeAsync(this, "OnIceComponentStateChanged");
 			}
 			remove
 			{
 				_OnIceComponentStateChanged -= value;
-				client.Unsubscribe(this, "OnIceComponentStateChanged");
+				client.UnsubscribeAsync(this, "OnIceComponentStateChanged");
 			}
 		}
 		public KMSEventHandler<IceComponentStateChangeEventArgs>  _IceComponentStateChange;
@@ -141,12 +141,12 @@ namespace Kurento.NET
 			add
 			{
 				_IceComponentStateChange += value;
-				client.Subscribe(this, "IceComponentStateChange");
+				client.SubscribeAsync(this, "IceComponentStateChange");
 			}
 			remove
 			{
 				_IceComponentStateChange -= value;
-				client.Unsubscribe(this, "IceComponentStateChange");
+				client.UnsubscribeAsync(this, "IceComponentStateChange");
 			}
 		}
 		public KMSEventHandler<OnDataChannelOpenedEventArgs>  _OnDataChannelOpened;
@@ -155,12 +155,12 @@ namespace Kurento.NET
 			add
 			{
 				_OnDataChannelOpened += value;
-				client.Subscribe(this, "OnDataChannelOpened");
+				client.SubscribeAsync(this, "OnDataChannelOpened");
 			}
 			remove
 			{
 				_OnDataChannelOpened -= value;
-				client.Unsubscribe(this, "OnDataChannelOpened");
+				client.UnsubscribeAsync(this, "OnDataChannelOpened");
 			}
 		}
 		public KMSEventHandler<DataChannelOpenEventArgs>  _DataChannelOpen;
@@ -169,12 +169,12 @@ namespace Kurento.NET
 			add
 			{
 				_DataChannelOpen += value;
-				client.Subscribe(this, "DataChannelOpen");
+				client.SubscribeAsync(this, "DataChannelOpen");
 			}
 			remove
 			{
 				_DataChannelOpen -= value;
-				client.Unsubscribe(this, "DataChannelOpen");
+				client.UnsubscribeAsync(this, "DataChannelOpen");
 			}
 		}
 		public KMSEventHandler<OnDataChannelClosedEventArgs>  _OnDataChannelClosed;
@@ -183,12 +183,12 @@ namespace Kurento.NET
 			add
 			{
 				_OnDataChannelClosed += value;
-				client.Subscribe(this, "OnDataChannelClosed");
+				client.SubscribeAsync(this, "OnDataChannelClosed");
 			}
 			remove
 			{
 				_OnDataChannelClosed -= value;
-				client.Unsubscribe(this, "OnDataChannelClosed");
+				client.UnsubscribeAsync(this, "OnDataChannelClosed");
 			}
 		}
 		public KMSEventHandler<DataChannelCloseEventArgs>  _DataChannelClose;
@@ -197,12 +197,12 @@ namespace Kurento.NET
 			add
 			{
 				_DataChannelClose += value;
-				client.Subscribe(this, "DataChannelClose");
+				client.SubscribeAsync(this, "DataChannelClose");
 			}
 			remove
 			{
 				_DataChannelClose -= value;
-				client.Unsubscribe(this, "DataChannelClose");
+				client.UnsubscribeAsync(this, "DataChannelClose");
 			}
 		}
 		public KMSEventHandler<NewCandidatePairSelectedEventArgs>  _NewCandidatePairSelected;
@@ -211,12 +211,12 @@ namespace Kurento.NET
 			add
 			{
 				_NewCandidatePairSelected += value;
-				client.Subscribe(this, "NewCandidatePairSelected");
+				client.SubscribeAsync(this, "NewCandidatePairSelected");
 			}
 			remove
 			{
 				_NewCandidatePairSelected -= value;
-				client.Unsubscribe(this, "NewCandidatePairSelected");
+				client.UnsubscribeAsync(this, "NewCandidatePairSelected");
 			}
 		}
 

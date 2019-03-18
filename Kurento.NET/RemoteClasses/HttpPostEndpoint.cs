@@ -23,12 +23,12 @@ namespace Kurento.NET
 			add
 			{
 				_EndOfStream += value;
-				client.Subscribe(this, "EndOfStream");
+				client.SubscribeAsync(this, "EndOfStream");
 			}
 			remove
 			{
 				_EndOfStream -= value;
-				client.Unsubscribe(this, "EndOfStream");
+				client.UnsubscribeAsync(this, "EndOfStream");
 			}
 		}
 

@@ -1,8 +1,8 @@
-﻿		public ${type} Get${upperName}()
+﻿		public async Task<${type}> Get${upperName}Async()
         {
-            return client.Invoke(this, "get${upperName}").GetValue<${type}>();
+            return (await client.InvokeAsync(this, "get${upperName}")).GetValue<${type}>();
         }
-        public void Set${upperName}(${type} ${name})
+        public async Task Set${upperName}Async(${type} ${name})
         {
-            client.Invoke(this, "set${upperName}", new { ${name} });
+            await client.InvokeAsync(this, "set${upperName}", new { ${name} });
         }

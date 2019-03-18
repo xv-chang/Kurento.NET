@@ -11,26 +11,26 @@ namespace Kurento.NET
     public class UriEndpoint :Endpoint
 	{
 
-		public string GetUri()
+		public async Task<string> GetUriAsync()
         {
-            return client.Invoke(this, "getUri").GetValue<string>();
+            return (await client.InvokeAsync(this, "getUri")).GetValue<string>();
         }
-        public void SetUri(string uri)
+        public async Task SetUriAsync(string uri)
         {
-            client.Invoke(this, "setUri", new { uri });
+            await client.InvokeAsync(this, "setUri", new { uri });
         }
-		public UriEndpointState GetState()
+		public async Task<UriEndpointState> GetStateAsync()
         {
-            return client.Invoke(this, "getState").GetValue<UriEndpointState>();
+            return (await client.InvokeAsync(this, "getState")).GetValue<UriEndpointState>();
         }
 
-		public void Pause()
+		public async Task PauseAsync()
 		{
-			client.Invoke(this, "pause",null);
+			await client.InvokeAsync(this, "pause",null);
 		}
-		public void Stop()
+		public async Task StopAsync()
 		{
-			client.Invoke(this, "stop",null);
+			await client.InvokeAsync(this, "stop",null);
 		}
 
 		public KMSEventHandler<UriEndpointStateChangedEventArgs>  _UriEndpointStateChanged;
@@ -39,12 +39,12 @@ namespace Kurento.NET
 			add
 			{
 				_UriEndpointStateChanged += value;
-				client.Subscribe(this, "UriEndpointStateChanged");
+				client.SubscribeAsync(this, "UriEndpointStateChanged");
 			}
 			remove
 			{
 				_UriEndpointStateChanged -= value;
-				client.Unsubscribe(this, "UriEndpointStateChanged");
+				client.UnsubscribeAsync(this, "UriEndpointStateChanged");
 			}
 		}
 

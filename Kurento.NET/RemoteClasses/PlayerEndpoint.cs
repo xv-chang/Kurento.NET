@@ -15,26 +15,26 @@ namespace Kurento.NET
 			constructorParams=new {mediaPipeline,uri,useEncodedMedia,networkCache};
 		}
 
-		public VideoInfo GetVideoInfo()
+		public async Task<VideoInfo> GetVideoInfoAsync()
         {
-            return client.Invoke(this, "getVideoInfo").GetValue<VideoInfo>();
+            return (await client.InvokeAsync(this, "getVideoInfo")).GetValue<VideoInfo>();
         }
-		public string GetElementGstreamerDot()
+		public async Task<string> GetElementGstreamerDotAsync()
         {
-            return client.Invoke(this, "getElementGstreamerDot").GetValue<string>();
+            return (await client.InvokeAsync(this, "getElementGstreamerDot")).GetValue<string>();
         }
-		public Int64 GetPosition()
+		public async Task<Int64> GetPositionAsync()
         {
-            return client.Invoke(this, "getPosition").GetValue<Int64>();
+            return (await client.InvokeAsync(this, "getPosition")).GetValue<Int64>();
         }
-        public void SetPosition(Int64 position)
+        public async Task SetPositionAsync(Int64 position)
         {
-            client.Invoke(this, "setPosition", new { position });
+            await client.InvokeAsync(this, "setPosition", new { position });
         }
 
-		public void Play()
+		public async Task PlayAsync()
 		{
-			client.Invoke(this, "play",null);
+			await client.InvokeAsync(this, "play",null);
 		}
 
 		public KMSEventHandler<EndOfStreamEventArgs>  _EndOfStream;
@@ -43,12 +43,12 @@ namespace Kurento.NET
 			add
 			{
 				_EndOfStream += value;
-				client.Subscribe(this, "EndOfStream");
+				client.SubscribeAsync(this, "EndOfStream");
 			}
 			remove
 			{
 				_EndOfStream -= value;
-				client.Unsubscribe(this, "EndOfStream");
+				client.UnsubscribeAsync(this, "EndOfStream");
 			}
 		}
 
