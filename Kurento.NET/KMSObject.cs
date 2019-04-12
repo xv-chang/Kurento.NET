@@ -10,14 +10,11 @@ namespace Kurento.NET
 {
     public delegate void KMSEventHandler<T>(T obj);
     [JsonConverter(typeof(KMSObjectJsonConverter))]
-    public class KMSObject : IDisposable
+    public class KMSObject
     {
         public KurentoClient client;
         public object constructorParams;
         public string id;
-        public void Dispose()
-        {
-            client.ReleaseAsync(this);
-        }
+        public async Task ReleaseAsync() => await client.ReleaseAsync(this);
     }
 }
