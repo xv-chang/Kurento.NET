@@ -23,7 +23,5 @@ Kurento is an open source software project providing a platform suitable for cre
 ```
 
 # 实例
-1. HelloWorld 在Demo 项目中Hubs 文件夹下可看到 HelloWorldHub,写了信令的处理，简单的本地循环实现
-2. Room 在Demo 项目中Hubs 文件夹下可看到 RoomHub,写了信令的处理，简单的room 实现，也包含使用 RtpEndPoint 转发到另一个服务器
 
-
+[简单的多对多列子](https://github.com/oBears/KurentoDemo)
