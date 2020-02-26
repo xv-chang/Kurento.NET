@@ -16,69 +16,77 @@ namespace Kurento.NET
 
     public class KurentoClient
     {
+        const double checkHBInterval = 1000 * 5;  //5秒
         private int requestId = 0;
-        private readonly ClientWebSocket clientWebSocket;
+        private ClientWebSocket clientWebSocket;
         private ConcurrentDictionary<int, string> requests = new ConcurrentDictionary<int, string>();
         private ConcurrentDictionary<int, KMSResponse> repsonses = new ConcurrentDictionary<int, KMSResponse>();
         private ConcurrentDictionary<string, KMSObject> objects = new ConcurrentDictionary<string, KMSObject>();
         private readonly ILogger _logger;
-        private bool ready;
-        private bool connecting;
         private readonly string _uri;
+        private readonly ManualResetEvent resetEvent = new ManualResetEvent(false);
+        private readonly System.Timers.Timer timer;
+        private int tryCount = 0;
+        private readonly Task receiveTask;
         public KurentoClient(string uri, ILogger logger = null)
         {
             _logger = logger ?? new NullLogger();
             _uri = uri;
-            clientWebSocket = new ClientWebSocket();
+            timer = new System.Timers.Timer(checkHBInterval);
+            timer.Elapsed += Timer_Elapsed;
+            receiveTask = Task.Run(ReceiveAsync);
+            WaitConnectedAsync();
+        }
+        private async Task CheckHeartBeatAsync()
+        {
+            if (clientWebSocket.State == WebSocketState.Aborted || clientWebSocket.State == WebSocketState.Closed)
+            {
+                await WaitConnectedAsync();
+            }
+            SendAsync("ping", new { interval = checkHBInterval });
+        }
+        private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            CheckHeartBeatAsync();
         }
         private async Task WaitConnectedAsync()
         {
-            while (!ready)
+            try
             {
-                if (!connecting)
-                {
-                    connecting = true;
-                    await clientWebSocket.ConnectAsync(new Uri(_uri), CancellationToken.None);
-                    Task.Run(() => ReceiveAsync(clientWebSocket));
-                    ready = true;
-                }
-                else
-                {
-                    await Task.Delay(100);
-                }
+                clientWebSocket = new ClientWebSocket();
+                await clientWebSocket.ConnectAsync(new Uri(_uri), CancellationToken.None);
+                resetEvent.Set();
+                tryCount = 0;
+            }
+            catch (Exception ex)
+            {
+                tryCount++;
+                _logger.LogError(ex, $"{ex.Message},尝试重连次数{tryCount}");
             }
         }
-
-        private async Task ReceiveAsync(ClientWebSocket client)
+        private async Task ReceiveAsync()
         {
-            var buffer = new byte[1024 * 4];
-            while (true)
+            while (resetEvent.WaitOne())
             {
-                try
+                if (clientWebSocket.State == WebSocketState.Open)
                 {
-                    if (client.State == WebSocketState.Open)
+                    var buffer = new byte[1024 * 4];
+                    //接收到消息
+                    var r = await clientWebSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    var content = new StringBuilder();
+                    while (r.MessageType != WebSocketMessageType.Close && r.MessageType == WebSocketMessageType.Text)
                     {
-                        //接收到消息
-                        var r = await client.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                        var content = new StringBuilder();
-                        while (r.MessageType != WebSocketMessageType.Close && r.MessageType == WebSocketMessageType.Text)
+                        content.Append(Encoding.UTF8.GetString(buffer, 0, r.Count));
+                        if (r.EndOfMessage)
                         {
-                            content.Append(Encoding.UTF8.GetString(buffer, 0, r.Count));
-                            if (r.EndOfMessage)
-                            {
-                                OnMessage(content.ToString());
-                                content.Clear();
-                            }
-                            //没接收完继续接受
-                            r = await client.ReceiveAsync(new ArraySegment<byte>(buffer, 0, r.Count), CancellationToken.None);
+                            OnMessage(content.ToString());
+                            content.Clear();
                         }
-                        await client.CloseAsync(r.CloseStatus.Value, r.CloseStatusDescription, CancellationToken.None);
-                        client.Dispose();
+                        //没接收完继续接受
+                        r = await clientWebSocket.ReceiveAsync(new ArraySegment<byte>(buffer, 0, r.Count), CancellationToken.None);
                     }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, ex.Message);
+                    await clientWebSocket.CloseAsync(r.CloseStatus.Value, r.CloseStatusDescription, CancellationToken.None);
+                    clientWebSocket.Dispose();
                 }
             }
         }
@@ -122,7 +130,6 @@ namespace Kurento.NET
             _logger.LogInformation(jsonStr);
             requests[requestId] = jsonStr;
             var buffer = Encoding.UTF8.GetBytes(jsonStr);
-            await WaitConnectedAsync();
             await clientWebSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
             while (!repsonses.ContainsKey(requestId))
                 Thread.Sleep(100);
@@ -242,5 +249,5 @@ namespace Kurento.NET
         public string Message { set; get; }
     }
 
-   
+
 }
