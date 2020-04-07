@@ -35,33 +35,31 @@ namespace Kurento.NET
             timer = new System.Timers.Timer(checkHBInterval);
             timer.Elapsed += Timer_Elapsed;
             receiveTask = Task.Run(ReceiveAsync);
-            WaitConnectedAsync();
         }
-        private async Task CheckHeartBeatAsync()
-        {
-            if (clientWebSocket.State == WebSocketState.Aborted || clientWebSocket.State == WebSocketState.Closed)
-            {
-                await WaitConnectedAsync();
-            }
-            SendAsync("ping", new { interval = checkHBInterval });
-        }
+
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            CheckHeartBeatAsync();
+            SendAsync("ping", new { interval = checkHBInterval });
         }
         private async Task WaitConnectedAsync()
         {
             try
             {
-                clientWebSocket = new ClientWebSocket();
-                await clientWebSocket.ConnectAsync(new Uri(_uri), CancellationToken.None);
-                resetEvent.Set();
-                tryCount = 0;
+                if (clientWebSocket == null || clientWebSocket.State != WebSocketState.Open)
+                {
+                    clientWebSocket = new ClientWebSocket();
+                    await clientWebSocket.ConnectAsync(new Uri(_uri), CancellationToken.None);
+                    resetEvent.Set();
+                    tryCount = 0;
+                }
             }
             catch (Exception ex)
             {
+                //停止接受消息
+                resetEvent.Reset();
                 tryCount++;
                 _logger.LogError(ex, $"{ex.Message},尝试重连次数{tryCount}");
+
             }
         }
         private async Task ReceiveAsync()
@@ -130,6 +128,7 @@ namespace Kurento.NET
             _logger.LogInformation(jsonStr);
             requests[requestId] = jsonStr;
             var buffer = Encoding.UTF8.GetBytes(jsonStr);
+            await WaitConnectedAsync();
             await clientWebSocket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
             while (!repsonses.ContainsKey(requestId))
                 Thread.Sleep(100);
